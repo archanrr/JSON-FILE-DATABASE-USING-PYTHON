@@ -1,0 +1,248 @@
+import json
+import sys
+
+
+class Student:
+
+    def __init__(self, name: object, age: object, class_no: object, gender: object) -> object:
+        # self.stud_id = stud_id
+        self.name = name
+        self.age = age
+        self.class_no = class_no
+        self.gender = gender
+
+    def insert_student_record(self):
+        with open('student_json', 'r') as f:
+            student_data = json.load(f)
+        f.close()
+
+        str1 = {
+            "name": self.name,
+            "class_no": self.class_no,
+            "age": self.age,
+            "gender": self.gender}
+
+        student_data["info"]["sno"] = student_data["info"]["sno"] + 1
+        student_data["info"]["count"] = student_data["info"]["count"] + 1
+        key = "ID" + str(student_data["info"]["sno"])
+        print("New Id is generated for student")
+        print(key)
+        print("Record Inserted Sucessfully")
+        student_data[key] = str1
+        # student_data["info"]["IDS"].append(key)
+
+        # Pretty Printing JSON string back
+        with open('student_json', 'w') as outfile:
+            json.dump(student_data, outfile, indent=4)
+            outfile.close()
+
+
+def update_student_record(update_id, update_key, update_value):
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+
+    if update_id in student_data:
+        student_data[update_id][update_key] = update_value
+        print("Record Updated Sucessfully")
+    else:
+        print("RECORD NOT FOUND")
+
+    with open('student_json', 'w') as outfile:
+        json.dump(student_data, outfile, indent=4)
+        outfile.close()
+
+
+def display_record(id1):
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+
+    if id1 in student_data:
+        print("ID : {}\nNAME : {}\nAGE : {}\nCLASS: {}\nGENDER: {}".format(id1, student_data[id1]["name"],
+                                                                           student_data[id1]["age"],
+                                                                           student_data[id1]["class_no"],
+                                                                           student_data[id1]["gender"]))
+    else:
+        print("Record Not Found")
+
+
+def display_all():
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+
+    print("Total number of Students in Database is {}\n-----------------------------------------".format(
+        student_data["info"]["count"]))
+    print("Displaying Requested Record")
+    for id1 in student_data:
+        if id1 != "info":
+            print("ID : {}\nNAME : {}\nAGE : {}\nCLASS: {}\nGENDER: {}\n".format(id1, student_data[id1]["name"],
+                                                                                 student_data[id1]["age"],
+                                                                                 student_data[id1]["class_no"],
+                                                                                 student_data[id1]["gender"]))
+
+
+def search_student_record(search_key, value):
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+
+    print(
+        "Total number of Students in Database is {}\n-----------------------------------------".format(
+            student_data["info"]["count"]))
+
+    for ids in student_data:
+        if ids != "info":
+            for values in student_data[ids]:
+                if values == search_key and student_data[ids][values] == value:
+                    display_record(ids)
+
+
+
+def delete_student_record(key):
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+
+    if key in student_data:
+        del student_data[key]
+    else:
+        print("Record Not Found")
+
+    student_data["info"]["count"] -= 1
+    with open('student_json', 'w') as outfile:
+        json.dump(student_data, outfile, indent=4)
+        outfile.close()
+
+
+def count_record(attr, choise):
+    with open('student_json', 'r') as f:
+        student_data = json.load(f)
+    dummy_count = 0
+    for ids in student_data:
+        if ids != "info":
+            for values in student_data[ids]:
+                if student_data[ids][values] == choise and values == attr:
+                    dummy_count += 1
+                    print("ID:{}".format(ids))
+    print("Number Of Records: {}".format(dummy_count))
+
+
+def main():
+    # update_student_record("ID2", "name", "archan")
+    # search_student_record("ID4", 'name')
+    # delete_student_record("ID3")
+    # count_record("age",12)
+    print("Welcome to Student Database")
+    while 1:
+        print("------------------------------------------------\nEnter which Operation u Want to perform:\n1.Add new "
+              "Record\n2.Update the Record\n3.Delete the "
+              "Record\n4.Search for Record \n5. Count The Record\n6 Display all details of student database. "
+              "\n7.Exit\n---------------------------------------------------------------")
+        n = int(input("Enter your optional Number"))
+        if n == 1:
+            new_name = input("Enter Student Name")
+            new_class = input("Enter Class")
+            new_age = input("Enter Student age")
+            new_gender = int(input("Enter 1 for MALE and 2 for Female"))
+            if new_gender == 1:
+                new_gender = "MALE"
+            elif new_gender == 2:
+                new_gender = "FEMALE"
+            else:
+                print("Pls enter Valid option")
+
+            student_object = Student(new_name.upper(), new_age, new_class, new_gender)
+            student_object.insert_student_record()
+        elif n == 2:
+            new_id = input("Enter Student Id")
+            new_id = new_id.upper()
+            new_category = input("Enter which attribute need to be changed(1 for age,2 for name,3 for class,"
+                                 "4 for gender)")
+            if new_category == 1:
+                new_category = "age"
+            elif new_category == 2:
+                new_category = "name"
+            elif new_category == 3:
+                new_category = "class_no"
+            elif new_category == 4:
+                new_category = "gender"
+            else:
+                print("Pls enter Valid option")
+            if new_category == "gender":
+                new_value = input("Enter 1 for MALE and 2 for Female")
+                if new_value == 1:
+                    new_value = "MALE"
+                elif new_value == 2:
+                    new_value = "FEMALE"
+                else:
+                    print("Pls enter Valid option")
+            else:
+                new_value = input("Enter New Value")
+                if not new_value.isdigit():
+                    new_value = new_value.upper()
+
+            update_student_record(new_id, new_category, new_value)
+        elif n == 4:
+            new_category = int(input("Enter which attribute need to be changed(1 for age,2 for name,3 for class,"
+                                     "4 for gender)"))
+            if new_category == 1:
+                new_category = "age"
+            elif new_category == 2:
+                new_category = "name"
+            elif new_category == 3:
+                new_category = "class_no"
+            elif new_category == 4:
+                new_category = "gender"
+            else:
+                print("Pls enter search Valid option")
+
+            if new_category == "gender":
+                new_value = int(input("Enter 1 for MALE and 2 for Female"))
+                if new_value == 1:
+                    new_value = "MALE"
+                elif new_value == 2:
+                    new_value = "FEMALE"
+                else:
+                    print("Pls enter Valid option")
+            else:
+                new_value = input("Enter the value")
+                if not new_value.isdigit():
+                    new_value = new_value.upper()
+
+            search_student_record(new_category, new_value)
+        elif n == 3:
+            new_id = input("Enter Student Id")
+            delete_student_record(new_id)
+        elif n == 5:
+            new_category = int(input("Enter which attribute need to be changed(1 for age,2 for name,3 for class,"
+                                     "4 for gender)"))
+            if new_category == 1:
+                new_category = "age"
+            elif new_category == 2:
+                new_category = "name"
+            elif new_category == 3:
+                new_category = "class_no"
+            elif new_category == 4:
+                new_category = "gender"
+            else:
+                print("Pls enter Valid option")
+
+            if new_category == "gender":
+                new_value = int(input("Enter 1 for MALE and 2 for Female"))
+                if new_value == 1:
+                    new_value = "MALE"
+                elif new_value == 2:
+                    new_value = "FEMALE"
+                else:
+                    print("Pls enter Valid option")
+            else:
+                new_value = input("Enter New Value")
+                if not new_value.isdigit():
+                    new_value = new_value.upper()
+
+            count_record(new_category, new_value)
+        elif n == 6:
+            display_all()
+        elif n == 7:
+            sys.exit()
+
+
+if __name__ == "__main__":
+    main()

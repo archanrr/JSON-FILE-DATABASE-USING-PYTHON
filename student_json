@@ -1,0 +1,30 @@
+{
+    "info": {
+        "count": 3,
+        "sno": 7
+    },
+    "ID7": {
+        "age": "17",
+        "class_no": "12",
+        "name": "SOWMYA",
+        "gender": "FEMALE"
+    },
+    "ID3": {
+        "age": "17",
+        "class_no": "12",
+        "name": "BHUVI",
+        "gender": "MALE"
+    },
+    "ID1": {
+        "age": "17",
+        "class_no": "12",
+        "name": "ARCHAN",
+        "gender": "MALE"
+    },
+    "ID4": {
+        "age": "16",
+        "class_no": "11",
+        "name": "NIVETHA",
+        "gender": "FEMALE"
+    }
+}
