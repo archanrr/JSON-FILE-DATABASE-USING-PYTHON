@@ -1,30 +1,12 @@
 {
-    "info": {
-        "count": 3,
-        "sno": 7
-    },
-    "ID7": {
-        "age": "17",
-        "class_no": "12",
-        "name": "SOWMYA",
-        "gender": "FEMALE"
-    },
-    "ID3": {
-        "age": "17",
-        "class_no": "12",
-        "name": "BHUVI",
-        "gender": "MALE"
-    },
     "ID1": {
-        "age": "17",
-        "class_no": "12",
-        "name": "ARCHAN",
-        "gender": "MALE"
+        "class_no": 12,
+        "name": "ARCHAN RR",
+        "gender": "MALE",
+        "age": 17
     },
-    "ID4": {
-        "age": "16",
-        "class_no": "11",
-        "name": "NIVETHA",
-        "gender": "FEMALE"
+    "info": {
+        "sno": 2,
+        "count": 1
     }
 }

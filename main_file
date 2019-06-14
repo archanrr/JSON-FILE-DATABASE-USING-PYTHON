@@ -95,7 +95,6 @@ def search_student_record(search_key, value):
                     display_record(ids)
 
 
-
 def delete_student_record(key):
     with open('student_json', 'r') as f:
         student_data = json.load(f)
@@ -105,7 +104,10 @@ def delete_student_record(key):
     else:
         print("Record Not Found")
 
-    student_data["info"]["count"] -= 1
+    if key not in student_data:
+        print('Record Deleted Sucessfully')
+        student_data["info"]["count"] -= 1
+
     with open('student_json', 'w') as outfile:
         json.dump(student_data, outfile, indent=4)
         outfile.close()
@@ -138,8 +140,8 @@ def main():
         n = int(input("Enter your optional Number"))
         if n == 1:
             new_name = input("Enter Student Name")
-            new_class = input("Enter Class")
-            new_age = input("Enter Student age")
+            new_class = int(input("Enter Class"))
+            new_age = int(input("Enter Student age"))
             new_gender = int(input("Enter 1 for MALE and 2 for Female"))
             if new_gender == 1:
                 new_gender = "MALE"
@@ -153,8 +155,8 @@ def main():
         elif n == 2:
             new_id = input("Enter Student Id")
             new_id = new_id.upper()
-            new_category = input("Enter which attribute need to be changed(1 for age,2 for name,3 for class,"
-                                 "4 for gender)")
+            new_category = int(input("Enter which attribute need to be changed(1 for age,2 for name,3 for class,"
+                                     "4 for gender)"))
             if new_category == 1:
                 new_category = "age"
             elif new_category == 2:
@@ -165,8 +167,9 @@ def main():
                 new_category = "gender"
             else:
                 print("Pls enter Valid option")
+
             if new_category == "gender":
-                new_value = input("Enter 1 for MALE and 2 for Female")
+                new_value = int(input("Enter 1 for MALE and 2 for Female"))
                 if new_value == 1:
                     new_value = "MALE"
                 elif new_value == 2:
@@ -177,6 +180,8 @@ def main():
                 new_value = input("Enter New Value")
                 if not new_value.isdigit():
                     new_value = new_value.upper()
+                else:
+                    new_value = int(new_value)
 
             update_student_record(new_id, new_category, new_value)
         elif n == 4:
